@@ -10,27 +10,24 @@
             -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
         }
-        
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a15 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
             touch-action: manipulation;
             padding: 16px;
         }
-        
         .game-container {
-            background: linear-gradient(145deg, #0f0f1a, #06060c);
+            background: linear-gradient(145deg, #0f0f1a, #080811);
             border-radius: 56px;
             padding: 20px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.05);
         }
-        
         canvas {
             display: block;
             margin: 0 auto;
@@ -39,9 +36,8 @@
             touch-action: none;
             width: 100%;
             height: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
-        
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -55,7 +51,6 @@
             align-items: center;
             z-index: 200;
         }
-        
         .menu-panel {
             background: linear-gradient(145deg, #1a1a2a, #0c0c18);
             border-radius: 72px;
@@ -66,27 +61,20 @@
             max-width: 90%;
             width: 420px;
         }
-        
         .menu-panel h1 {
             font-size: 3rem;
-            margin: 0 0 5px 0;
-            background: linear-gradient(135deg, #e0e0e0, #aaaaaa, #666666);
+            margin: 0 0 5px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        
-        .menu-panel h1 span {
-            font-size: 2.5rem;
-        }
-        
         .menu-panel .sub {
-            color: #888;
+            color: #aaa;
             margin-bottom: 32px;
             font-size: 0.85rem;
             letter-spacing: 2px;
         }
-        
         .menu-btn {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -99,31 +87,20 @@
             color: white;
             cursor: pointer;
             transition: all 0.25s ease;
-            font-family: inherit;
         }
-        
         .menu-btn.primary {
-            background: linear-gradient(135deg, #444, #222);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: linear-gradient(135deg, #ff8c00, #ff5500);
+            box-shadow: 0 6px 20px rgba(255,85,0,0.35);
         }
-        
         .menu-btn.secondary {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        
-        .menu-btn:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
-        }
-        
         .difficulty-row {
             display: flex;
             gap: 12px;
             margin: 20px 0;
         }
-        
         .difficulty-btn {
             flex: 1;
             background: rgba(255,255,255,0.06);
@@ -132,22 +109,18 @@
             border-radius: 50px;
             color: white;
             cursor: pointer;
-            transition: all 0.2s;
             font-weight: bold;
             font-size: 0.85rem;
         }
-        
         .difficulty-btn.active {
-            background: linear-gradient(135deg, #555, #333);
-            border-color: rgba(255,215,0,0.4);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #ff8c00, #ff5500);
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(255,85,0,0.3);
         }
-        
         .back-btn {
             background: rgba(255,255,255,0.04);
             margin-top: 16px;
         }
-        
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -157,9 +130,7 @@
             border-radius: 60px;
             margin-bottom: 18px;
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.05);
         }
-        
         .info-box {
             background: rgba(0,0,0,0.7);
             padding: 6px 18px;
@@ -168,12 +139,10 @@
             font-weight: bold;
             font-size: 0.9rem;
         }
-        
         .info-box span {
             color: #ffd700;
             margin-right: 6px;
         }
-        
         .sound-toggle, .exit-btn {
             background: rgba(0,0,0,0.6);
             border: none;
@@ -182,25 +151,21 @@
             color: white;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.2s;
         }
-        
         .exit-btn {
             background: rgba(100,50,50,0.5);
             border: 1px solid rgba(255,80,80,0.2);
         }
-        
         .right-buttons {
             display: flex;
             gap: 8px;
         }
-        
         .warning {
             position: fixed;
             top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #ff4444, #990000);
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             color: white;
             padding: 12px 24px;
             border-radius: 60px;
@@ -211,14 +176,11 @@
             white-space: nowrap;
             font-size: 0.9rem;
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.2);
         }
-        
         @keyframes slideDown {
             from { opacity: 0; transform: translateX(-50%) translateY(-25px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
-        
         .level-complete {
             position: fixed;
             top: 50%;
@@ -231,14 +193,15 @@
             z-index: 180;
             animation: popIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
             border: 2px solid #ffd700;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
-        
+        .level-complete h2 {
+            margin: 0 0 20px;
+            color: #ffd700;
+        }
         @keyframes popIn {
             from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
-        
         @media (max-width: 550px) {
             .menu-panel { padding: 28px 24px; }
             .menu-panel h1 { font-size: 2.2rem; }
@@ -250,7 +213,7 @@
 <body>
 <div id="menuOverlay" class="menu-overlay">
     <div class="menu-panel">
-        <h1>🐱 КОСАТКА <span>🖤</span></h1>
+        <h1>🐱 КОСАТКА 🖤</h1>
         <div class="sub">БЕШЕНАЯ КОШКА | РИТМ-РЕАКЦИЯ</div>
         <button class="menu-btn primary" onclick="startLevelMode()">🐾 УРОВНИ (30 уровней)</button>
         <button class="menu-btn secondary" onclick="showDifficultyMenu()">🌀 БЕСКОНЕЧНЫЙ РЕЖИМ</button>
@@ -287,36 +250,24 @@
 </div>
 
 <script>
-    // ========== КАНВАС И ИЗОБРАЖЕНИЕ КОСАТКИ ==========
     const canvas = document.getElementById('gameCanvas');
-    let ctx = canvas ? canvas.getContext('2d') : null;
+    let ctx = canvas.getContext('2d');
     let w = 500, h = 500;
-    if(canvas) { canvas.width = w; canvas.height = h; }
+    canvas.width = w; canvas.height = h;
     
     let catImage = new Image();
     let catImageLoaded = false;
     let catX = w/2, catY = h/2;
-    let catRunAngle = 0;
-    let catRunRadius = 0;
-    
-    // Пытаемся загрузить картинку cat.png
-    catImage.onload = () => { catImageLoaded = true; };
-    catImage.onerror = () => { 
-        // Если картинки нет - рисуем чёрного кота вручную
-        catImageLoaded = false; 
-    };
+    catImage.onload = () => catImageLoaded = true;
+    catImage.onerror = () => catImageLoaded = false;
     catImage.src = 'cat.png';
     
-    // ========== ЗВУКИ ==========
+    // Звуки
     let soundEnabled = true;
     let audioCtx = null;
-    
     function initAudio() {
-        if(!audioCtx && soundEnabled) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
+        if(!audioCtx && soundEnabled) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
-    
     function playBeep(freq, duration, type='sine', vol=0.15) {
         if(!soundEnabled) return;
         try {
@@ -324,29 +275,23 @@
             if(audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.frequency.value = freq;
-            osc.type = type;
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.value = freq; osc.type = type;
             gain.gain.value = vol;
             osc.start();
             gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
             osc.stop(audioCtx.currentTime + duration);
         } catch(e) {}
     }
-    
     function playCorrect() { playBeep(880, 0.12, 'sine', 0.13); }
     function playWrong() { playBeep(340, 0.25, 'sawtooth', 0.18); }
-    function playLevelUp() { playBeep(660, 0.08); setTimeout(()=>playBeep(880,0.12),100); setTimeout(()=>playBeep(1040,0.18),250); }
-    function playGameOver() { playBeep(260, 0.5); setTimeout(()=>playBeep(180,0.8),350); }
-    
+    function playLevelUp() { playBeep(660,0.08); setTimeout(()=>playBeep(880,0.12),100); setTimeout(()=>playBeep(1040,0.18),250); }
+    function playGameOver() { playBeep(260,0.5); setTimeout(()=>playBeep(180,0.8),350); }
     function toggleSound() {
         soundEnabled = !soundEnabled;
-        const btns = document.querySelectorAll('.sound-toggle');
-        btns.forEach(btn => btn.innerHTML = soundEnabled ? '🔊' : '🔇');
-        if(soundEnabled && audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        document.querySelectorAll('.sound-toggle').forEach(btn => btn.innerHTML = soundEnabled ? '🔊' : '🔇');
+        if(soundEnabled && audioCtx?.state === 'suspended') audioCtx.resume();
     }
-    
     function exitToMenu() {
         if(timerInterval) clearInterval(timerInterval);
         gameRunning = false;
@@ -355,277 +300,197 @@
         document.getElementById('difficultyMenu').style.display = 'none';
     }
     
-    // ========== ПАРТИКЛЫ ==========
+    // Партиклы
     let particles = [];
     class Particle {
-        constructor(x, y, color) {
-            this.x = x; this.y = y;
-            this.vx = (Math.random() - 0.5) * 7;
-            this.vy = (Math.random() - 0.5) * 7 - 3;
-            this.life = 0.9;
-            this.color = color;
-            this.size = 5 + Math.random() * 5;
+        constructor(x,y,color) {
+            this.x=x; this.y=y; this.vx=(Math.random()-0.5)*7; this.vy=(Math.random()-0.5)*7-3;
+            this.life=0.9; this.color=color; this.size=5+Math.random()*5;
         }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.vy += 0.25;
-            this.life -= 0.025;
-            return this.life > 0;
-        }
-        draw(ctx) {
-            ctx.globalAlpha = this.life;
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size/1.5, 0, Math.PI*2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        }
+        update() { this.x+=this.vx; this.y+=this.vy; this.vy+=0.25; this.life-=0.025; return this.life>0; }
+        draw(ctx) { ctx.globalAlpha=this.life; ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size/1.5,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
     }
+    function addParticles(x,y,color,count=10) { for(let i=0;i<count;i++) particles.push(new Particle(x,y,color)); }
     
-    function addParticles(x, y, color, count=10) {
-        for(let i=0;i<count;i++) particles.push(new Particle(x, y, color));
-    }
-    
-    // ========== ИГРОВОЕ СОСТОЯНИЕ ==========
+    // Игровое состояние
     let gameRunning = true;
     let gameMode = 'levels';
     let currentLevel = 1;
     let endlessDifficulty = 'normal';
-    let score = 0;
-    let combo = 0;
-    let scoreMultiplier = 1;
-    let timeLeft = 60;
-    let levelTimeLeft = 45;
-    
-    let glitchMode = false;
-    let chaosMode = false;
-    let invertedMode = false;
-    
-    const actions = ['МЯУ', 'ТИХО', 'БЕЙ', 'ПРЯТКИ'];
-    const actionEmoji = ['😺', '🤫', '👊', '📦'];
-    let sectorAngles = [0, 90, 180, 270];
-    const centerX = w/2, centerY = h/2, radius = 160;
-    
+    let score = 0, combo = 0, scoreMultiplier = 1;
+    let timeLeft = 60, levelTimeLeft = 45;
+    let glitchMode = false, chaosMode = false, invertedMode = false;
+    const actions = ['МЯУ','ТИХО','БЕЙ','ПРЯТКИ'];
+    const actionEmoji = ['😺','🤫','👊','📦'];
+    let sectorAngles = [0,90,180,270];
+    const centerX=w/2, centerY=h/2, radius=165;
     let currentCommand = null;
     let commandEndTime = 0;
-    let nextCommandDelay = 1200;
-    let flashAlpha = 0;
-    let screenShake = 0;
+    let flashAlpha = 0, screenShake = 0;
     let timerInterval = null;
-    
-    // Анимация бега кошки по комнате
     let catRunTime = 0;
     
     function updateCatRunning() {
-        catRunTime += 0.03;
-        // Кошка носится по кругу с переменным радиусом
-        let runRadius = 80 + Math.sin(catRunTime * 1.5) * 30;
+        catRunTime += 0.035;
+        let runRadius = 85 + Math.sin(catRunTime*1.5)*30;
         let angle = catRunTime * 2.5;
-        catX = centerX + Math.cos(angle) * runRadius;
-        catY = centerY + Math.sin(angle * 1.3) * runRadius - 10;
-        
-        // Добавляем небольшие следы если игра активна и комбо высокий
-        if(gameRunning && combo >= 3 && Math.random() < 0.1) {
-            addParticles(catX, catY, '#888', 1);
-        }
+        catX = centerX + Math.cos(angle)*runRadius;
+        catY = centerY + Math.sin(angle*1.3)*runRadius - 5;
+        if(gameRunning && combo>=3 && Math.random()<0.12) addParticles(catX,catY,'#ffd700',2);
     }
-    
     function updateMultiplier() {
-        if(combo === 0) scoreMultiplier = 1;
-        else if(combo === 1) scoreMultiplier = 1;
-        else if(combo === 2) scoreMultiplier = 2;
-        else if(combo === 3) scoreMultiplier = 3;
-        else if(combo === 4) scoreMultiplier = 4;
-        else scoreMultiplier = 5;
+        if(combo===0) scoreMultiplier=1;
+        else if(combo===1) scoreMultiplier=1;
+        else if(combo===2) scoreMultiplier=2;
+        else if(combo===3) scoreMultiplier=3;
+        else if(combo===4) scoreMultiplier=4;
+        else scoreMultiplier=5;
     }
-    
     function updateUI() {
-        const scoreSpan = document.getElementById('scoreValue');
-        const comboSpan = document.getElementById('comboValue');
-        if(scoreSpan) scoreSpan.innerText = score;
-        if(comboSpan) comboSpan.innerText = combo;
+        document.getElementById('scoreValue').innerText = score;
+        document.getElementById('comboValue').innerText = combo;
         const levelSpan = document.getElementById('levelInfo');
         if(levelSpan) {
-            if(gameMode === 'levels') levelSpan.innerText = `Уровень ${currentLevel}/30`;
-            else levelSpan.innerText = `Бесконечный [${endlessDifficulty === 'easy' ? 'Лёгкий' : endlessDifficulty === 'normal' ? 'Средний' : 'Сложный'}]`;
+            if(gameMode==='levels') levelSpan.innerText = `Уровень ${currentLevel}/30`;
+            else levelSpan.innerText = `Бесконечный [${endlessDifficulty==='easy'?'Лёгкий':endlessDifficulty==='normal'?'Средний':'Сложный'}]`;
         }
-        const timeSpan = document.getElementById('timeValue');
-        if(timeSpan) timeSpan.innerText = Math.ceil(gameMode === 'levels' ? levelTimeLeft : timeLeft);
+        document.getElementById('timeValue').innerText = Math.ceil(gameMode==='levels'?levelTimeLeft:timeLeft);
     }
-    
     function showWarning(msg) {
         const div = document.createElement('div');
         div.className = 'warning';
         div.innerText = msg;
         document.body.appendChild(div);
-        setTimeout(()=>div.remove(), 1100);
+        setTimeout(()=>div.remove(),1100);
     }
-    
-    function getSectorFromClick(mx, my) {
-        const dx = mx - centerX, dy = my - centerY;
-        if(Math.hypot(dx, dy) > radius + 20) return -1;
-        let angle = Math.atan2(dy, dx) * 180 / Math.PI;
-        if(angle < 0) angle += 360;
-        for(let i=0;i<sectorAngles.length;i++) {
-            let start = sectorAngles[i] - 45, end = sectorAngles[i] + 45;
+    function getSectorFromClick(mx,my) {
+        const dx=mx-centerX, dy=my-centerY;
+        if(Math.hypot(dx,dy)>radius+20) return -1;
+        let angle = Math.atan2(dy,dx)*180/Math.PI;
+        if(angle<0) angle+=360;
+        for(let i=0;i<4;i++) {
+            let start=sectorAngles[i]-45, end=sectorAngles[i]+45;
             if(start<0) start+=360; if(end>=360) end-=360;
             if(start<=end) { if(angle>=start && angle<=end) return i; }
             else { if(angle>=start || angle<=end) return i; }
         }
         return -1;
     }
-    
     function getActionForSector(idx) {
         let effective = chaosMode ? (idx+2)%4 : idx;
         let action = actions[effective];
-        if(glitchMode && (action === 'МЯУ' || action === 'ТИХО'))
-            action = action === 'МЯУ' ? 'ТИХО' : 'МЯУ';
+        if(glitchMode && (action==='МЯУ'||action==='ТИХО'))
+            action = action==='МЯУ' ? 'ТИХО' : 'МЯУ';
         return action;
     }
-    
     function generateCommand() {
         if(!gameRunning) return;
-        const isFake = Math.random() < 0.22;
+        const isFake = Math.random()<0.22;
         let cmdAction = actions[Math.floor(Math.random()*4)];
-        if(isFake) currentCommand = { text: `НЕ ${cmdAction}`, action: cmdAction, isFake: true };
-        else currentCommand = { text: cmdAction, action: cmdAction, isFake: false };
-        commandEndTime = Date.now() + 1700;
-        
+        if(isFake) currentCommand = { text:`НЕ ${cmdAction}`, action:cmdAction, isFake:true };
+        else currentCommand = { text:cmdAction, action:cmdAction, isFake:false };
+        commandEndTime = Date.now()+1700;
         let baseDelay = 1500;
-        if(gameMode === 'levels') baseDelay = Math.max(800, 1600 - currentLevel * 22);
+        if(gameMode==='levels') baseDelay = Math.max(800, 1600-currentLevel*22);
         else {
-            if(endlessDifficulty === 'easy') baseDelay = 1450;
-            else if(endlessDifficulty === 'normal') baseDelay = 1150;
-            else baseDelay = 850;
+            if(endlessDifficulty==='easy') baseDelay=1450;
+            else if(endlessDifficulty==='normal') baseDelay=1150;
+            else baseDelay=850;
         }
-        nextCommandDelay = baseDelay;
-        setTimeout(()=>{ if(gameRunning && !currentCommand) generateCommand(); }, nextCommandDelay);
+        setTimeout(()=>{ if(gameRunning && !currentCommand) generateCommand(); }, baseDelay);
     }
-    
     function handleAnswer(sectorIdx) {
         if(!gameRunning || !currentCommand) return;
-        if(Date.now() > commandEndTime) {
+        if(Date.now()>commandEndTime) {
             showWarning('⏰ Слишком поздно!'); combo=0; updateMultiplier();
             generateCommand(); return;
         }
         const selected = getActionForSector(sectorIdx);
-        let correct = currentCommand.isFake ? selected !== currentCommand.action : selected === currentCommand.action;
-        
+        const correct = currentCommand.isFake ? selected !== currentCommand.action : selected === currentCommand.action;
         if(correct) {
-            let earn = 10 * scoreMultiplier;
-            score += earn;
-            combo++;
+            let earn = 10*scoreMultiplier;
+            score+=earn; combo++;
             if(combo>5) combo=5;
             updateMultiplier();
-            addParticles(catX, catY, '#ffd700', 7);
+            addParticles(catX,catY,'#ffd700',7);
             playCorrect();
-            flashAlpha = 0.65;
-            screenShake = 3;
+            flashAlpha=0.65; screenShake=3;
             showWarning(`✅ +${earn}! Комбо x${scoreMultiplier}`);
             generateCommand();
         } else {
-            combo=0;
-            updateMultiplier();
+            combo=0; updateMultiplier();
             score = Math.max(0, score-5);
             playWrong();
-            screenShake = 7;
-            addParticles(catX, catY, '#ff4444', 12);
+            screenShake=7;
+            addParticles(catX,catY,'#ff4444',12);
             showWarning(`❌ Ошибка! Нужно: ${currentCommand.isFake ? `НЕ ${currentCommand.action}` : currentCommand.action}`);
             generateCommand();
         }
         updateUI();
     }
-    
     function startGlitch() { if(gameRunning){ glitchMode=true; showWarning('🌀 ГЛЮК-РЕЖИМ: МЯУ ↔ ТИХО'); setTimeout(()=>glitchMode=false,5000); } }
     function startChaos() { if(gameRunning){ chaosMode=true; showWarning('🌪️ ХАОС-РЕЖИМ: Сектора сдвинуты!'); setTimeout(()=>chaosMode=false,6000); } }
     function startInverted() { if(gameRunning){ invertedMode=true; showWarning('🌈 ИНВЕРСИЯ: Цвета перевёрнуты'); setTimeout(()=>invertedMode=false,4000); } }
-    
-    function randomEffect() {
-        if(!gameRunning) return;
-        const r=Math.random();
-        if(r<0.07) startGlitch();
-        else if(r<0.12) startChaos();
-        else if(r<0.16) startInverted();
-    }
-    
+    function randomEffect() { if(!gameRunning) return; const r=Math.random(); if(r<0.07) startGlitch(); else if(r<0.12) startChaos(); else if(r<0.16) startInverted(); }
     function startTimers() {
         if(timerInterval) clearInterval(timerInterval);
         timerInterval = setInterval(()=>{
             if(!gameRunning) return;
-            if(gameMode === 'levels') {
+            if(gameMode==='levels') {
                 levelTimeLeft -= 0.1;
-                if(levelTimeLeft <= 0) { levelTimeLeft=0; levelComplete(); }
+                if(levelTimeLeft<=0) { levelTimeLeft=0; levelComplete(); }
             } else {
                 timeLeft -= 0.1;
-                if(timeLeft <= 0) { timeLeft=0; gameOver(); }
+                if(timeLeft<=0) { timeLeft=0; gameOver(); }
             }
             updateUI();
-        }, 100);
-        
-        setInterval(()=> randomEffect(), 13000);
+        },100);
+        setInterval(()=>randomEffect(),13000);
     }
-    
     function levelComplete() {
         if(!gameRunning) return;
-        gameRunning = false;
-        playLevelUp();
-        if(currentLevel < 30) {
-            showLevelPopup(`🎉 УРОВЕНЬ ${currentLevel} ПРОЙДЕН! 🎉`, ()=>{
-                currentLevel++;
-                resetLevel();
-            });
+        gameRunning=false; playLevelUp();
+        if(currentLevel<30) {
+            showLevelPopup(`🎉 УРОВЕНЬ ${currentLevel} ПРОЙДЕН! 🎉`, ()=>{ currentLevel++; resetLevel(); });
         } else {
-            showLevelPopup(`🏆 ПОБЕДА! ВСЕ 30 УРОВНЕЙ! Счёт: ${score} 🏆`, ()=>{
-                exitToMenu();
-            });
+            showLevelPopup(`🏆 ПОБЕДА! ВСЕ 30 УРОВНЕЙ! Счёт: ${score} 🏆`, ()=>exitToMenu());
         }
     }
-    
     function gameOver() {
         if(!gameRunning) return;
-        gameRunning = false;
-        playGameOver();
-        showLevelPopup(`💀 ИГРА ОКОНЧЕНА! Счёт: ${score} 💀`, ()=>{
-            exitToMenu();
-        });
+        gameRunning=false; playGameOver();
+        showLevelPopup(`💀 ИГРА ОКОНЧЕНА! Счёт: ${score} 💀`, ()=>exitToMenu());
     }
-    
     function showLevelPopup(msg, callback) {
         const popup = document.createElement('div');
         popup.className = 'level-complete';
         popup.innerHTML = `<h2>${msg}</h2><button class="menu-btn primary" style="margin-top:16px; padding:10px 24px;">ПРОДОЛЖИТЬ</button>`;
         document.body.appendChild(popup);
-        popup.querySelector('button').onclick = ()=>{
-            popup.remove();
-            callback();
-        };
+        popup.querySelector('button').onclick = ()=>{ popup.remove(); callback(); };
     }
-    
     function resetLevel() {
-        score = 0; combo = 0; updateMultiplier();
-        levelTimeLeft = Math.max(28, 48 - currentLevel);
-        gameRunning = true;
+        score=0; combo=0; updateMultiplier();
+        levelTimeLeft = Math.max(28, 48-currentLevel);
+        gameRunning=true;
         glitchMode=chaosMode=invertedMode=false;
         generateCommand();
         updateUI();
         screenShake=0;
     }
     
-    // ========== ОТРИСОВКА С БЕГАЮЩЕЙ КОШКОЙ ==========
+    // Отрисовка с корректными цветами в инверсии
     function draw() {
         if(!ctx) return;
-        
         if(invertedMode) {
             ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillRect(0,0,w,h);
             ctx.globalCompositeOperation = 'difference';
         } else {
-            ctx.fillStyle = '#0a0a15';
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0,0,w,h);
         }
         
-        let sx=0, sy=0;
+        let sx=0,sy=0;
         if(screenShake>0){
             sx=(Math.random()-0.5)*screenShake;
             sy=(Math.random()-0.5)*screenShake;
@@ -634,149 +499,113 @@
             ctx.translate(sx,sy);
         }
         
-        // Рисуем фон комнаты (пол и стены)
-        ctx.fillStyle = '#2a1f1a';
-        ctx.fillRect(0, h-80, w, 80);
-        ctx.fillStyle = '#3d2a1f';
-        for(let i=0;i<10;i++) {
-            ctx.fillRect(i*50+10, h-75, 30, 5);
-        }
-        
-        // Рисуем сектора
+        // Сектора
         for(let i=0;i<4;i++){
-            let startAngleRad = (sectorAngles[i] - 45) * Math.PI / 180;
-            let endAngleRad = (sectorAngles[i] + 45) * Math.PI / 180;
-            
+            let startRad = (sectorAngles[i]-45)*Math.PI/180;
+            let endRad = (sectorAngles[i]+45)*Math.PI/180;
             ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngleRad, endAngleRad);
+            ctx.moveTo(centerX,centerY);
+            ctx.arc(centerX,centerY,radius,startRad,endRad);
             ctx.closePath();
-            
             let hue = sectorAngles[i];
-            ctx.fillStyle = invertedMode ? `hsl(${hue}, 75%, 55%)` : `hsla(${hue}, 75%, 40%, 0.85)`;
+            ctx.fillStyle = invertedMode ? `hsl(${hue}, 80%, 60%)` : `hsl(${hue}, 80%, 45%)`;
             ctx.fill();
-            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineWidth = 2.5;
             ctx.stroke();
             
-            let midAngle = sectorAngles[i] * Math.PI / 180;
-            let textRadius = radius * 0.68;
-            let textX = centerX + Math.cos(midAngle) * textRadius;
-            let textY = centerY + Math.sin(midAngle) * textRadius;
-            
+            let midRad = sectorAngles[i]*Math.PI/180;
+            let textRad = radius*0.68;
+            let textX = centerX + Math.cos(midRad)*textRad;
+            let textY = centerY + Math.sin(midRad)*textRad;
             let action = getActionForSector(i);
-            let actionIndex = actions.indexOf(action);
-            let emoji = actionEmoji[actionIndex] || '🐱';
+            let idx = actions.indexOf(action);
+            let emoji = actionEmoji[idx] || '🐱';
             
-            ctx.font = 'bold 32px "Segoe UI Emoji"';
-            ctx.fillStyle = invertedMode ? '#000' : '#fff';
-            ctx.shadowBlur = 3;
-            ctx.fillText(emoji, textX - 18, textY - 10);
-            ctx.font = 'bold 17px "Segoe UI"';
-            ctx.fillStyle = invertedMode ? '#000' : '#eee';
-            ctx.fillText(action, textX - 20, textY + 18);
+            ctx.font = 'bold 34px "Segoe UI Emoji"';
+            // В инвертированном режиме рисуем чёрным? Нет, при difference лучше белым, но мы уже в difference.
+            // Чтобы текст был виден на белом фоне: рисуем цветом, который после difference даст чёрный.
+            // При difference: если рисуем белый (255) -> на белом фоне = чёрный. Если рисуем чёрный -> белый (не видно).
+            // Значит, в инвертированном режиме для текста нужно использовать белый цвет.
+            ctx.fillStyle = invertedMode ? '#ffffff' : '#ffffff';
+            ctx.shadowBlur = 4;
+            ctx.fillText(emoji, textX-20, textY-12);
+            ctx.font = 'bold 19px "Segoe UI"';
+            ctx.fillStyle = invertedMode ? '#ffffff' : '#f0f0f0';
+            ctx.fillText(action, textX-22, textY+18);
             ctx.shadowBlur = 0;
         }
         
-        // Центральный круг
+        // Центр
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
-        ctx.fillStyle = '#2a2a3a';
+        ctx.arc(centerX,centerY,52,0,Math.PI*2);
+        ctx.fillStyle = '#ffcc00';
         ctx.fill();
-        ctx.strokeStyle = '#ffaa44';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#ff8800';
+        ctx.lineWidth = 3;
         ctx.stroke();
         
-        // РИСУЕМ БЕГАЮЩУЮ КОШКУ КОСАТКУ
+        // Кошка
         ctx.save();
-        let catAngle = Math.atan2(catY - centerY, catX - centerX);
-        ctx.translate(catX, catY);
+        let catAngle = Math.atan2(catY-centerY, catX-centerX);
+        ctx.translate(catX,catY);
         ctx.rotate(catAngle + Math.PI/2);
-        
-        if(catImageLoaded) {
-            ctx.drawImage(catImage, -28, -28, 56, 56);
-        } else {
-            // Рисуем чёрную кошку если картинка не загружена
+        if(catImageLoaded) ctx.drawImage(catImage, -28, -28, 56, 56);
+        else {
             ctx.fillStyle = '#111';
-            ctx.beginPath();
-            ctx.ellipse(0, 0, 20, 24, 0, 0, Math.PI*2);
-            ctx.fill();
+            ctx.beginPath(); ctx.ellipse(0,0,22,26,0,0,Math.PI*2); ctx.fill();
             ctx.fillStyle = '#ffcc00';
-            ctx.beginPath();
-            ctx.arc(-8, -8, 3, 0, Math.PI*2);
-            ctx.arc(8, -8, 3, 0, Math.PI*2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(-9,-9,3.5,0,Math.PI*2); ctx.arc(9,-9,3.5,0,Math.PI*2); ctx.fill();
             ctx.fillStyle = '#000';
-            ctx.beginPath();
-            ctx.arc(-7, -9, 1.5, 0, Math.PI*2);
-            ctx.arc(9, -9, 1.5, 0, Math.PI*2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(-8,-10,1.8,0,Math.PI*2); ctx.arc(10,-10,1.8,0,Math.PI*2); ctx.fill();
             ctx.fillStyle = '#ff8888';
-            ctx.beginPath();
-            ctx.ellipse(0, 4, 6, 3, 0, 0, Math.PI*2);
-            ctx.fill();
+            ctx.beginPath(); ctx.ellipse(0,5,7,4,0,0,Math.PI*2); ctx.fill();
         }
         ctx.restore();
         
-        // Добавляем следы бега
-        if(combo >= 2 && gameRunning) {
-            ctx.fillStyle = 'rgba(100,100,100,0.3)';
-            ctx.beginPath();
-            ctx.ellipse(catX-8, catY+12, 5, 3, 0, 0, Math.PI*2);
-            ctx.ellipse(catX+8, catY+12, 5, 3, 0, 0, Math.PI*2);
-            ctx.fill();
-        }
-        
-        // Команда
+        // Текущая команда
         if(currentCommand && gameRunning){
-            let percent = Math.max(0, (commandEndTime - Date.now()) / 1700);
+            let percent = Math.max(0, (commandEndTime-Date.now())/1700);
             ctx.beginPath();
-            ctx.arc(centerX, centerY - 75, 35, 0, Math.PI * 2 * percent);
-            ctx.strokeStyle = '#ff6666';
+            ctx.arc(centerX, centerY-75, 35, 0, Math.PI*2*percent);
+            ctx.strokeStyle = '#ff5555';
             ctx.lineWidth = 5;
             ctx.stroke();
-            
-            ctx.font = 'bold 24px "Segoe UI"';
-            ctx.fillStyle = invertedMode ? '#000' : '#fff';
+            ctx.font = 'bold 26px "Segoe UI"';
+            ctx.fillStyle = invertedMode ? '#ffffff' : '#ffffff';
             let displayText = currentCommand.text;
             if(currentCommand.isFake) ctx.fillStyle = '#ffaa77';
-            ctx.fillText(displayText, centerX - 65, centerY - 85);
-            ctx.fillStyle = '#55ff55';
-            ctx.fillRect(centerX - 95, centerY - 112, 190 * percent, 5);
+            ctx.fillText(displayText, centerX-70, centerY-90);
+            ctx.fillStyle = '#44ff66';
+            ctx.fillRect(centerX-100, centerY-118, 200*percent, 6);
         }
         
-        // Партиклы
         for(let p of particles) p.draw(ctx);
         particles = particles.filter(p=>p.update());
         
-        if(flashAlpha > 0){
+        if(flashAlpha>0){
             ctx.fillStyle = `rgba(255,255,200,${flashAlpha})`;
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillRect(0,0,w,h);
             flashAlpha *= 0.88;
         }
-        
         if(glitchMode && Math.random()<0.25){
             ctx.fillStyle = `rgba(255,0,255,${Math.random()*0.25})`;
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillRect(0,0,w,h);
         }
-        
         if(screenShake>0) ctx.restore();
         if(invertedMode) ctx.globalCompositeOperation = 'source-over';
         
         if(!gameRunning){
-            ctx.fillStyle = 'rgba(0,0,0,0.8)';
-            ctx.fillRect(0, 0, w, h);
+            ctx.fillStyle = 'rgba(0,0,0,0.75)';
+            ctx.fillRect(0,0,w,h);
             ctx.font = 'bold 32px "Segoe UI"';
             ctx.fillStyle = '#ffd700';
             ctx.fillText('GAME OVER', centerX-105, centerY);
         }
     }
     
-    function animate() { 
-        if(gameRunning) updateCatRunning();
-        draw(); 
-        requestAnimationFrame(animate); 
-    }
+    function animate() { if(gameRunning) updateCatRunning(); draw(); requestAnimationFrame(animate); }
+    animate();
     
     function initGame(mode, diff=null) {
         gameMode = mode;
@@ -784,10 +613,10 @@
         currentLevel = 1;
         score = 0; combo = 0; updateMultiplier();
         catRunTime = 0;
-        if(gameMode === 'levels') { levelTimeLeft = 46; timeLeft = 60; }
+        if(gameMode==='levels') { levelTimeLeft = 46; timeLeft = 60; }
         else { 
-            if(endlessDifficulty === 'easy') timeLeft = 95;
-            else if(endlessDifficulty === 'normal') timeLeft = 75;
+            if(endlessDifficulty==='easy') timeLeft = 95;
+            else if(endlessDifficulty==='normal') timeLeft = 75;
             else timeLeft = 55;
         }
         gameRunning = true;
@@ -798,26 +627,22 @@
         document.getElementById('gameContainer').style.display = 'block';
         document.getElementById('menuOverlay').style.display = 'none';
         document.getElementById('difficultyMenu').style.display = 'none';
-        
-        if(canvas){
-            canvas.onclick = (e)=>{
-                if(!gameRunning) return;
-                let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
-                let x=(e.clientX-rect.left)*scale, y=(e.clientY-rect.top)*scale;
-                let sec=getSectorFromClick(x,y);
-                if(sec!==-1) handleAnswer(sec);
-            };
-            canvas.ontouchstart = (e)=>{ 
-                e.preventDefault(); 
-                let t=e.touches[0]; 
-                let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
-                let x=(t.clientX-rect.left)*scale, y=(t.clientY-rect.top)*scale;
-                let sec=getSectorFromClick(x,y); 
-                if(sec!==-1) handleAnswer(sec);
-            };
-        }
+        canvas.onclick = (e)=>{
+            if(!gameRunning) return;
+            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
+            let x=(e.clientX-rect.left)*scale, y=(e.clientY-rect.top)*scale;
+            let sec=getSectorFromClick(x,y);
+            if(sec!==-1) handleAnswer(sec);
+        };
+        canvas.ontouchstart = (e)=>{
+            e.preventDefault();
+            let t=e.touches[0];
+            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
+            let x=(t.clientX-rect.left)*scale, y=(t.clientY-rect.top)*scale;
+            let sec=getSectorFromClick(x,y);
+            if(sec!==-1) handleAnswer(sec);
+        };
     }
-    
     function startLevelMode() { initGame('levels'); }
     function startEndlessMode() { initGame('endless', endlessDifficulty); }
     function showDifficultyMenu() {
@@ -836,8 +661,6 @@
         document.querySelectorAll('.difficulty-btn').forEach(btn=>btn.classList.remove('active'));
         document.querySelector(`.difficulty-btn[data-diff="${d}"]`).classList.add('active');
     }
-    
-    if(ctx) animate();
     window.toggleSound=toggleSound;
     window.startLevelMode=startLevelMode;
     window.startEndlessMode=startEndlessMode;
