@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Косатка: Бешеная кошка</title>
     <style>
-        * {
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-        }
+        * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body {
             margin: 0;
             min-height: 100vh;
@@ -17,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             touch-action: manipulation;
             padding: 16px;
         }
@@ -26,7 +22,6 @@
             border-radius: 56px;
             padding: 20px;
             box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.05);
         }
         canvas {
             display: block;
@@ -56,7 +51,7 @@
             border-radius: 72px;
             padding: 36px 44px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
             border: 1px solid rgba(255,215,0,0.2);
             max-width: 90%;
             width: 420px;
@@ -73,7 +68,6 @@
             color: #aaa;
             margin-bottom: 32px;
             font-size: 0.85rem;
-            letter-spacing: 2px;
         }
         .menu-btn {
             background: rgba(255,255,255,0.08);
@@ -86,7 +80,7 @@
             font-weight: bold;
             color: white;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: 0.25s;
         }
         .menu-btn.primary {
             background: linear-gradient(135deg, #ff8c00, #ff5500);
@@ -110,12 +104,10 @@
             color: white;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.85rem;
         }
         .difficulty-btn.active {
             background: linear-gradient(135deg, #ff8c00, #ff5500);
             border-color: transparent;
-            box-shadow: 0 4px 12px rgba(255,85,0,0.3);
         }
         .back-btn {
             background: rgba(255,255,255,0.04);
@@ -130,6 +122,8 @@
             border-radius: 60px;
             margin-bottom: 18px;
             backdrop-filter: blur(8px);
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .info-box {
             background: rgba(0,0,0,0.7);
@@ -194,10 +188,7 @@
             animation: popIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
             border: 2px solid #ffd700;
         }
-        .level-complete h2 {
-            margin: 0 0 20px;
-            color: #ffd700;
-        }
+        .level-complete h2 { margin: 0 0 20px; color: #ffd700; }
         @keyframes popIn {
             from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -240,6 +231,7 @@
     <div class="info-panel">
         <div class="info-box"><span>🎯</span> <span id="scoreValue">0</span></div>
         <div class="info-box"><span>🔥</span> <span id="comboValue">0</span></div>
+        <div class="info-box"><span>⏱️</span> <span id="timeValue">0</span></div>
         <div class="info-box" id="modeInfo"><span>📊</span> <span id="levelInfo">Уровень 1/30</span></div>
         <div class="right-buttons">
             <button class="exit-btn" onclick="exitToMenu()">🚪 ВЫХОД</button>
@@ -251,7 +243,7 @@
 
 <script>
     const canvas = document.getElementById('gameCanvas');
-    let ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     let w = 500, h = 500;
     canvas.width = w; canvas.height = h;
     
@@ -347,14 +339,17 @@
         else scoreMultiplier=5;
     }
     function updateUI() {
-        document.getElementById('scoreValue').innerText = score;
-        document.getElementById('comboValue').innerText = combo;
+        const scoreEl = document.getElementById('scoreValue');
+        const comboEl = document.getElementById('comboValue');
+        const timeEl = document.getElementById('timeValue');
         const levelSpan = document.getElementById('levelInfo');
+        if(scoreEl) scoreEl.innerText = score;
+        if(comboEl) comboEl.innerText = combo;
+        if(timeEl) timeEl.innerText = Math.ceil(gameMode === 'levels' ? levelTimeLeft : timeLeft);
         if(levelSpan) {
-            if(gameMode==='levels') levelSpan.innerText = `Уровень ${currentLevel}/30`;
-            else levelSpan.innerText = `Бесконечный [${endlessDifficulty==='easy'?'Лёгкий':endlessDifficulty==='normal'?'Средний':'Сложный'}]`;
+            if(gameMode === 'levels') levelSpan.innerText = `Уровень ${currentLevel}/30`;
+            else levelSpan.innerText = `Бесконечный [${endlessDifficulty === 'easy' ? 'Лёгкий' : endlessDifficulty === 'normal' ? 'Средний' : 'Сложный'}]`;
         }
-        document.getElementById('timeValue').innerText = Math.ceil(gameMode==='levels'?levelTimeLeft:timeLeft);
     }
     function showWarning(msg) {
         const div = document.createElement('div');
@@ -478,7 +473,7 @@
         screenShake=0;
     }
     
-    // Отрисовка с корректными цветами в инверсии
+    // Отрисовка
     function draw() {
         if(!ctx) return;
         if(invertedMode) {
@@ -499,7 +494,6 @@
             ctx.translate(sx,sy);
         }
         
-        // Сектора
         for(let i=0;i<4;i++){
             let startRad = (sectorAngles[i]-45)*Math.PI/180;
             let endRad = (sectorAngles[i]+45)*Math.PI/180;
@@ -523,10 +517,6 @@
             let emoji = actionEmoji[idx] || '🐱';
             
             ctx.font = 'bold 34px "Segoe UI Emoji"';
-            // В инвертированном режиме рисуем чёрным? Нет, при difference лучше белым, но мы уже в difference.
-            // Чтобы текст был виден на белом фоне: рисуем цветом, который после difference даст чёрный.
-            // При difference: если рисуем белый (255) -> на белом фоне = чёрный. Если рисуем чёрный -> белый (не видно).
-            // Значит, в инвертированном режиме для текста нужно использовать белый цвет.
             ctx.fillStyle = invertedMode ? '#ffffff' : '#ffffff';
             ctx.shadowBlur = 4;
             ctx.fillText(emoji, textX-20, textY-12);
@@ -536,7 +526,6 @@
             ctx.shadowBlur = 0;
         }
         
-        // Центр
         ctx.beginPath();
         ctx.arc(centerX,centerY,52,0,Math.PI*2);
         ctx.fillStyle = '#ffcc00';
@@ -545,7 +534,6 @@
         ctx.lineWidth = 3;
         ctx.stroke();
         
-        // Кошка
         ctx.save();
         let catAngle = Math.atan2(catY-centerY, catX-centerX);
         ctx.translate(catX,catY);
@@ -563,7 +551,6 @@
         }
         ctx.restore();
         
-        // Текущая команда
         if(currentCommand && gameRunning){
             let percent = Math.max(0, (commandEndTime-Date.now())/1700);
             ctx.beginPath();
