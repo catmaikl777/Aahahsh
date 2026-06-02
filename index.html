@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Мяу-мания: Гипно-кот</title>
+    <title>Косатка: Бешеная кошка</title>
     <style>
         * {
             user-select: none;
@@ -14,7 +14,7 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a15 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,10 +24,10 @@
         }
         
         .game-container {
-            background: linear-gradient(145deg, #0f0f1a, #080811);
+            background: linear-gradient(145deg, #0f0f1a, #06060c);
             border-radius: 56px;
             padding: 20px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.05);
         }
         
@@ -39,23 +39,21 @@
             touch-action: none;
             width: 100%;
             height: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
-        /* Меню */
         .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.94);
             backdrop-filter: blur(16px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 200;
-            transition: all 0.3s ease;
         }
         
         .menu-panel {
@@ -70,19 +68,22 @@
         }
         
         .menu-panel h1 {
-            font-size: 3.2rem;
-            margin: 0 0 8px 0;
-            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff5500);
+            font-size: 3rem;
+            margin: 0 0 5px 0;
+            background: linear-gradient(135deg, #e0e0e0, #aaaaaa, #666666);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 10px rgba(255,140,0,0.3);
+        }
+        
+        .menu-panel h1 span {
+            font-size: 2.5rem;
         }
         
         .menu-panel .sub {
-            color: #aaa;
+            color: #888;
             margin-bottom: 32px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 2px;
         }
         
@@ -99,27 +100,22 @@
             cursor: pointer;
             transition: all 0.25s ease;
             font-family: inherit;
-            backdrop-filter: blur(4px);
         }
         
         .menu-btn.primary {
-            background: linear-gradient(135deg, #ff8c00, #ff5500);
-            box-shadow: 0 6px 20px rgba(255,85,0,0.35);
-            border: none;
+            background: linear-gradient(135deg, #444, #222);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
         }
         
         .menu-btn.secondary {
             background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .menu-btn:hover {
             transform: scale(1.02);
-            filter: brightness(1.05);
-        }
-        
-        .menu-btn:active {
-            transform: scale(0.98);
+            filter: brightness(1.1);
         }
         
         .difficulty-row {
@@ -131,7 +127,7 @@
         .difficulty-btn {
             flex: 1;
             background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.12);
             padding: 12px 8px;
             border-radius: 50px;
             color: white;
@@ -142,9 +138,9 @@
         }
         
         .difficulty-btn.active {
-            background: linear-gradient(135deg, #ff8c00, #ff5500);
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(255,85,0,0.3);
+            background: linear-gradient(135deg, #555, #333);
+            border-color: rgba(255,215,0,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         
         .back-btn {
@@ -157,48 +153,41 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0,0,0,0.6);
             border-radius: 60px;
             margin-bottom: 18px;
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
         .info-box {
-            background: rgba(0,0,0,0.65);
+            background: rgba(0,0,0,0.7);
             padding: 6px 18px;
             border-radius: 50px;
             color: white;
             font-weight: bold;
             font-size: 0.9rem;
-            backdrop-filter: blur(4px);
         }
         
         .info-box span {
             color: #ffd700;
             margin-right: 6px;
-            font-size: 1.1rem;
         }
         
         .sound-toggle, .exit-btn {
-            background: rgba(0,0,0,0.55);
+            background: rgba(0,0,0,0.6);
             border: none;
             border-radius: 50px;
             padding: 6px 16px;
             color: white;
             cursor: pointer;
             font-size: 1rem;
-            backdrop-filter: blur(4px);
             transition: all 0.2s;
         }
         
         .exit-btn {
-            background: rgba(255,50,50,0.3);
-            border: 1px solid rgba(255,80,80,0.3);
-        }
-        
-        .exit-btn:hover {
-            background: rgba(255,50,50,0.5);
+            background: rgba(100,50,50,0.5);
+            border: 1px solid rgba(255,80,80,0.2);
         }
         
         .right-buttons {
@@ -211,7 +200,7 @@
             top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #ff4444, #cc0000);
+            background: linear-gradient(135deg, #ff4444, #990000);
             color: white;
             padding: 12px 24px;
             border-radius: 60px;
@@ -245,11 +234,6 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
         
-        .level-complete h2 {
-            margin: 0 0 20px 0;
-            color: #ffd700;
-        }
-        
         @keyframes popIn {
             from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
             to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -257,19 +241,17 @@
         
         @media (max-width: 550px) {
             .menu-panel { padding: 28px 24px; }
-            .menu-panel h1 { font-size: 2.4rem; }
+            .menu-panel h1 { font-size: 2.2rem; }
+            .warning { top: 70px; font-size: 0.75rem; white-space: normal; max-width: 85%; }
             .info-box { padding: 4px 12px; font-size: 0.7rem; }
-            .info-box span { font-size: 0.9rem; }
-            .sound-toggle, .exit-btn { padding: 4px 12px; font-size: 0.8rem; }
-            .warning { top: 70px; font-size: 0.75rem; white-space: normal; text-align: center; max-width: 85%; }
         }
     </style>
 </head>
 <body>
 <div id="menuOverlay" class="menu-overlay">
     <div class="menu-panel">
-        <h1>😺 МЯУ-МАНИЯ</h1>
-        <div class="sub">ГИПНО-КОТ | РИТМ-РЕАКЦИЯ</div>
+        <h1>🐱 КОСАТКА <span>🖤</span></h1>
+        <div class="sub">БЕШЕНАЯ КОШКА | РИТМ-РЕАКЦИЯ</div>
         <button class="menu-btn primary" onclick="startLevelMode()">🐾 УРОВНИ (30 уровней)</button>
         <button class="menu-btn secondary" onclick="showDifficultyMenu()">🌀 БЕСКОНЕЧНЫЙ РЕЖИМ</button>
         <div style="margin-top: 20px;">
@@ -305,11 +287,25 @@
 </div>
 
 <script>
-    // ========== КАНВАС ==========
+    // ========== КАНВАС И ИЗОБРАЖЕНИЕ КОСАТКИ ==========
     const canvas = document.getElementById('gameCanvas');
     let ctx = canvas ? canvas.getContext('2d') : null;
     let w = 500, h = 500;
     if(canvas) { canvas.width = w; canvas.height = h; }
+    
+    let catImage = new Image();
+    let catImageLoaded = false;
+    let catX = w/2, catY = h/2;
+    let catRunAngle = 0;
+    let catRunRadius = 0;
+    
+    // Пытаемся загрузить картинку cat.png
+    catImage.onload = () => { catImageLoaded = true; };
+    catImage.onerror = () => { 
+        // Если картинки нет - рисуем чёрного кота вручную
+        catImageLoaded = false; 
+    };
+    catImage.src = 'cat.png';
     
     // ========== ЗВУКИ ==========
     let soundEnabled = true;
@@ -321,7 +317,7 @@
         }
     }
     
-    function playBeep(freq, duration, type='sine', vol=0.2) {
+    function playBeep(freq, duration, type='sine', vol=0.15) {
         if(!soundEnabled) return;
         try {
             initAudio();
@@ -339,9 +335,9 @@
         } catch(e) {}
     }
     
-    function playCorrect() { playBeep(880, 0.12, 'sine', 0.15); }
-    function playWrong() { playBeep(340, 0.25, 'sawtooth', 0.2); }
-    function playLevelUp() { playBeep(660, 0.08); setTimeout(()=>playBeep(880,0.15),100); setTimeout(()=>playBeep(1040,0.2),250); }
+    function playCorrect() { playBeep(880, 0.12, 'sine', 0.13); }
+    function playWrong() { playBeep(340, 0.25, 'sawtooth', 0.18); }
+    function playLevelUp() { playBeep(660, 0.08); setTimeout(()=>playBeep(880,0.12),100); setTimeout(()=>playBeep(1040,0.18),250); }
     function playGameOver() { playBeep(260, 0.5); setTimeout(()=>playBeep(180,0.8),350); }
     
     function toggleSound() {
@@ -405,20 +401,35 @@
     let glitchMode = false;
     let chaosMode = false;
     let invertedMode = false;
-    let warningMessage = '';
     
     const actions = ['МЯУ', 'ТИХО', 'БЕЙ', 'ПРЯТКИ'];
     const actionEmoji = ['😺', '🤫', '👊', '📦'];
     let sectorAngles = [0, 90, 180, 270];
-    const centerX = w/2, centerY = h/2, radius = 165;
+    const centerX = w/2, centerY = h/2, radius = 160;
     
     let currentCommand = null;
     let commandEndTime = 0;
     let nextCommandDelay = 1200;
     let flashAlpha = 0;
     let screenShake = 0;
-    let gameLoopId = null;
     let timerInterval = null;
+    
+    // Анимация бега кошки по комнате
+    let catRunTime = 0;
+    
+    function updateCatRunning() {
+        catRunTime += 0.03;
+        // Кошка носится по кругу с переменным радиусом
+        let runRadius = 80 + Math.sin(catRunTime * 1.5) * 30;
+        let angle = catRunTime * 2.5;
+        catX = centerX + Math.cos(angle) * runRadius;
+        catY = centerY + Math.sin(angle * 1.3) * runRadius - 10;
+        
+        // Добавляем небольшие следы если игра активна и комбо высокий
+        if(gameRunning && combo >= 3 && Math.random() < 0.1) {
+            addParticles(catX, catY, '#888', 1);
+        }
+    }
     
     function updateMultiplier() {
         if(combo === 0) scoreMultiplier = 1;
@@ -444,7 +455,6 @@
     }
     
     function showWarning(msg) {
-        warningMessage = msg;
         const div = document.createElement('div');
         div.className = 'warning';
         div.innerText = msg;
@@ -508,7 +518,7 @@
             combo++;
             if(combo>5) combo=5;
             updateMultiplier();
-            addParticles(centerX + (Math.random()-0.5)*80, centerY + (Math.random()-0.5)*80, '#ffd700', 7);
+            addParticles(catX, catY, '#ffd700', 7);
             playCorrect();
             flashAlpha = 0.65;
             screenShake = 3;
@@ -520,7 +530,7 @@
             score = Math.max(0, score-5);
             playWrong();
             screenShake = 7;
-            addParticles(centerX, centerY, '#ff4444', 12);
+            addParticles(catX, catY, '#ff4444', 12);
             showWarning(`❌ Ошибка! Нужно: ${currentCommand.isFake ? `НЕ ${currentCommand.action}` : currentCommand.action}`);
             generateCommand();
         }
@@ -602,21 +612,19 @@
         screenShake=0;
     }
     
-    // ========== ОТРИСОВКА (ИСПРАВЛЕННАЯ) ==========
+    // ========== ОТРИСОВКА С БЕГАЮЩЕЙ КОШКОЙ ==========
     function draw() {
         if(!ctx) return;
         
-        // Инверсия
         if(invertedMode) {
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, w, h);
             ctx.globalCompositeOperation = 'difference';
         } else {
-            ctx.fillStyle = '#0a0a1a';
+            ctx.fillStyle = '#0a0a15';
             ctx.fillRect(0, 0, w, h);
         }
         
-        // Тряска
         let sx=0, sy=0;
         if(screenShake>0){
             sx=(Math.random()-0.5)*screenShake;
@@ -626,7 +634,15 @@
             ctx.translate(sx,sy);
         }
         
-        // Рисуем 4 сектора
+        // Рисуем фон комнаты (пол и стены)
+        ctx.fillStyle = '#2a1f1a';
+        ctx.fillRect(0, h-80, w, 80);
+        ctx.fillStyle = '#3d2a1f';
+        for(let i=0;i<10;i++) {
+            ctx.fillRect(i*50+10, h-75, 30, 5);
+        }
+        
+        // Рисуем сектора
         for(let i=0;i<4;i++){
             let startAngleRad = (sectorAngles[i] - 45) * Math.PI / 180;
             let endAngleRad = (sectorAngles[i] + 45) * Math.PI / 180;
@@ -637,15 +653,14 @@
             ctx.closePath();
             
             let hue = sectorAngles[i];
-            ctx.fillStyle = invertedMode ? `hsl(${hue}, 75%, 55%)` : `hsl(${hue}, 75%, 40%)`;
+            ctx.fillStyle = invertedMode ? `hsl(${hue}, 75%, 55%)` : `hsla(${hue}, 75%, 40%, 0.85)`;
             ctx.fill();
-            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Рисуем текст действия и эмодзи — теперь строго по центру сектора
             let midAngle = sectorAngles[i] * Math.PI / 180;
-            let textRadius = radius * 0.65;
+            let textRadius = radius * 0.68;
             let textX = centerX + Math.cos(midAngle) * textRadius;
             let textY = centerY + Math.sin(midAngle) * textRadius;
             
@@ -653,68 +668,93 @@
             let actionIndex = actions.indexOf(action);
             let emoji = actionEmoji[actionIndex] || '🐱';
             
-            ctx.font = 'bold 34px "Segoe UI Emoji", "Apple Color Emoji", system-ui';
-            ctx.fillStyle = invertedMode ? '#000000' : '#ffffff';
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = 'rgba(0,0,0,0.5)';
-            ctx.fillText(emoji, textX - 20, textY - 12);
-            
-            ctx.font = 'bold 19px "Segoe UI", system-ui';
-            ctx.fillStyle = invertedMode ? '#000000' : '#f0f0f0';
-            ctx.fillText(action, textX - 22, textY + 18);
+            ctx.font = 'bold 32px "Segoe UI Emoji"';
+            ctx.fillStyle = invertedMode ? '#000' : '#fff';
+            ctx.shadowBlur = 3;
+            ctx.fillText(emoji, textX - 18, textY - 10);
+            ctx.font = 'bold 17px "Segoe UI"';
+            ctx.fillStyle = invertedMode ? '#000' : '#eee';
+            ctx.fillText(action, textX - 20, textY + 18);
             ctx.shadowBlur = 0;
         }
         
-        // Центральный круг с котом
+        // Центральный круг
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 52, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffcc00';
+        ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
+        ctx.fillStyle = '#2a2a3a';
         ctx.fill();
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = '#ff8800';
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#ffaa44';
+        ctx.lineWidth = 2;
         ctx.stroke();
         
-        ctx.font = '42px "Segoe UI Emoji"';
-        ctx.fillStyle = '#000000';
-        ctx.fillText('🐱', centerX - 25, centerY + 15);
+        // РИСУЕМ БЕГАЮЩУЮ КОШКУ КОСАТКУ
+        ctx.save();
+        let catAngle = Math.atan2(catY - centerY, catX - centerX);
+        ctx.translate(catX, catY);
+        ctx.rotate(catAngle + Math.PI/2);
         
-        // Текущая команда
+        if(catImageLoaded) {
+            ctx.drawImage(catImage, -28, -28, 56, 56);
+        } else {
+            // Рисуем чёрную кошку если картинка не загружена
+            ctx.fillStyle = '#111';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 20, 24, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#ffcc00';
+            ctx.beginPath();
+            ctx.arc(-8, -8, 3, 0, Math.PI*2);
+            ctx.arc(8, -8, 3, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc(-7, -9, 1.5, 0, Math.PI*2);
+            ctx.arc(9, -9, 1.5, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#ff8888';
+            ctx.beginPath();
+            ctx.ellipse(0, 4, 6, 3, 0, 0, Math.PI*2);
+            ctx.fill();
+        }
+        ctx.restore();
+        
+        // Добавляем следы бега
+        if(combo >= 2 && gameRunning) {
+            ctx.fillStyle = 'rgba(100,100,100,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(catX-8, catY+12, 5, 3, 0, 0, Math.PI*2);
+            ctx.ellipse(catX+8, catY+12, 5, 3, 0, 0, Math.PI*2);
+            ctx.fill();
+        }
+        
+        // Команда
         if(currentCommand && gameRunning){
             let percent = Math.max(0, (commandEndTime - Date.now()) / 1700);
             ctx.beginPath();
-            ctx.arc(centerX, centerY - 80, 38, 0, Math.PI * 2 * percent);
-            ctx.strokeStyle = '#ff5555';
+            ctx.arc(centerX, centerY - 75, 35, 0, Math.PI * 2 * percent);
+            ctx.strokeStyle = '#ff6666';
             ctx.lineWidth = 5;
             ctx.stroke();
             
-            ctx.font = 'bold 26px "Segoe UI", system-ui';
-            ctx.fillStyle = invertedMode ? '#000000' : '#ffffff';
+            ctx.font = 'bold 24px "Segoe UI"';
+            ctx.fillStyle = invertedMode ? '#000' : '#fff';
             let displayText = currentCommand.text;
-            if(currentCommand.isFake) {
-                ctx.fillStyle = '#ffaa77';
-            }
-            ctx.shadowBlur = 3;
-            ctx.fillText(displayText, centerX - 70, centerY - 90);
-            ctx.shadowBlur = 0;
-            
-            // Дополнительный прогресс-бар
-            ctx.fillStyle = '#44ff66';
-            ctx.fillRect(centerX - 100, centerY - 118, 200 * percent, 6);
+            if(currentCommand.isFake) ctx.fillStyle = '#ffaa77';
+            ctx.fillText(displayText, centerX - 65, centerY - 85);
+            ctx.fillStyle = '#55ff55';
+            ctx.fillRect(centerX - 95, centerY - 112, 190 * percent, 5);
         }
         
         // Партиклы
         for(let p of particles) p.draw(ctx);
         particles = particles.filter(p=>p.update());
         
-        // Вспышка
         if(flashAlpha > 0){
             ctx.fillStyle = `rgba(255,255,200,${flashAlpha})`;
             ctx.fillRect(0, 0, w, h);
             flashAlpha *= 0.88;
         }
         
-        // Глюк-эффект
         if(glitchMode && Math.random()<0.25){
             ctx.fillStyle = `rgba(255,0,255,${Math.random()*0.25})`;
             ctx.fillRect(0, 0, w, h);
@@ -723,9 +763,8 @@
         if(screenShake>0) ctx.restore();
         if(invertedMode) ctx.globalCompositeOperation = 'source-over';
         
-        // Затемнение при окончании
         if(!gameRunning){
-            ctx.fillStyle = 'rgba(0,0,0,0.75)';
+            ctx.fillStyle = 'rgba(0,0,0,0.8)';
             ctx.fillRect(0, 0, w, h);
             ctx.font = 'bold 32px "Segoe UI"';
             ctx.fillStyle = '#ffd700';
@@ -734,6 +773,7 @@
     }
     
     function animate() { 
+        if(gameRunning) updateCatRunning();
         draw(); 
         requestAnimationFrame(animate); 
     }
@@ -743,6 +783,7 @@
         endlessDifficulty = diff || 'normal';
         currentLevel = 1;
         score = 0; combo = 0; updateMultiplier();
+        catRunTime = 0;
         if(gameMode === 'levels') { levelTimeLeft = 46; timeLeft = 60; }
         else { 
             if(endlessDifficulty === 'easy') timeLeft = 95;
@@ -757,6 +798,7 @@
         document.getElementById('gameContainer').style.display = 'block';
         document.getElementById('menuOverlay').style.display = 'none';
         document.getElementById('difficultyMenu').style.display = 'none';
+        
         if(canvas){
             canvas.onclick = (e)=>{
                 if(!gameRunning) return;
