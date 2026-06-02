@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Косатка: Бешеная кошка</title>
+    <title>Косатка: Бешеная кошка — упрощённая</title>
     <style>
         * { user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body {
@@ -21,7 +21,7 @@
             background: linear-gradient(145deg, #0f0f1a, #080811);
             border-radius: 56px;
             padding: 20px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
         }
         canvas {
             display: block;
@@ -205,25 +205,12 @@
 <div id="menuOverlay" class="menu-overlay">
     <div class="menu-panel">
         <h1>🐱 КОСАТКА 🖤</h1>
-        <div class="sub">БЕШЕНАЯ КОШКА | РИТМ-РЕАКЦИЯ</div>
-        <button class="menu-btn primary" onclick="startLevelMode()">🐾 УРОВНИ (30 уровней)</button>
-        <button class="menu-btn secondary" onclick="showDifficultyMenu()">🌀 БЕСКОНЕЧНЫЙ РЕЖИМ</button>
+        <div class="sub">УПРОЩЁННАЯ ВЕРСИЯ</div>
+        <button class="menu-btn primary" onclick="startNewGame()">🐾 НОВАЯ ИГРА</button>
+        <button class="menu-btn secondary" onclick="continueGame()">🔄 ПРОДОЛЖИТЬ</button>
         <div style="margin-top: 20px;">
             <button class="sound-toggle" onclick="toggleSound()" id="soundBtn">🔊 ЗВУК ВКЛ</button>
         </div>
-    </div>
-</div>
-
-<div id="difficultyMenu" style="display:none;" class="menu-overlay">
-    <div class="menu-panel">
-        <h2>🎮 БЕСКОНЕЧНЫЙ РЕЖИМ</h2>
-        <div class="difficulty-row">
-            <div class="difficulty-btn" data-diff="easy" onclick="setDifficulty('easy')">🍃 ЛЁГКИЙ</div>
-            <div class="difficulty-btn active" data-diff="normal" onclick="setDifficulty('normal')">⚡ СРЕДНИЙ</div>
-            <div class="difficulty-btn" data-diff="hard" onclick="setDifficulty('hard')">🔥 СЛОЖНЫЙ</div>
-        </div>
-        <button class="menu-btn primary" onclick="startEndlessMode()">НАЧАТЬ ИГРУ</button>
-        <button class="menu-btn back-btn" onclick="backToMain()">◀ ГЛАВНОЕ МЕНЮ</button>
     </div>
 </div>
 
@@ -231,6 +218,7 @@
     <div class="info-panel">
         <div class="info-box"><span>🎯</span> <span id="scoreValue">0</span></div>
         <div class="info-box"><span>🔥</span> <span id="comboValue">0</span></div>
+        <div class="info-box"><span>🏆</span> <span id="bestValue">0</span></div>
         <div class="info-box"><span>⏱️</span> <span id="timeValue">0</span></div>
         <div class="info-box" id="modeInfo"><span>📊</span> <span id="levelInfo">Уровень 1/30</span></div>
         <div class="right-buttons">
@@ -242,6 +230,7 @@
 </div>
 
 <script>
+    // === КАНВАС И КОШКА ===
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     let w = 500, h = 500;
@@ -254,13 +243,13 @@
     catImage.onerror = () => catImageLoaded = false;
     catImage.src = 'cat.png';
     
-    // Звуки
+    // === ЗВУКИ (упрощённые) ===
     let soundEnabled = true;
     let audioCtx = null;
     function initAudio() {
         if(!audioCtx && soundEnabled) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
-    function playBeep(freq, duration, type='sine', vol=0.15) {
+    function playBeep(freq, duration, type='sine', vol=0.12) {
         if(!soundEnabled) return;
         try {
             initAudio();
@@ -275,43 +264,44 @@
             osc.stop(audioCtx.currentTime + duration);
         } catch(e) {}
     }
-    function playCorrect() { playBeep(880, 0.12, 'sine', 0.13); }
-    function playWrong() { playBeep(340, 0.25, 'sawtooth', 0.18); }
-    function playLevelUp() { playBeep(660,0.08); setTimeout(()=>playBeep(880,0.12),100); setTimeout(()=>playBeep(1040,0.18),250); }
-    function playGameOver() { playBeep(260,0.5); setTimeout(()=>playBeep(180,0.8),350); }
+    function playCorrect() { playBeep(800, 0.1, 'sine', 0.12); }
+    function playWrong() { playBeep(360, 0.2, 'sawtooth', 0.15); }
+    function playLevelUp() { playBeep(660,0.08); setTimeout(()=>playBeep(880,0.12),100); }
+    function playGameOver() { playBeep(260,0.4); setTimeout(()=>playBeep(180,0.6),300); }
     function toggleSound() {
         soundEnabled = !soundEnabled;
         document.querySelectorAll('.sound-toggle').forEach(btn => btn.innerHTML = soundEnabled ? '🔊' : '🔇');
         if(soundEnabled && audioCtx?.state === 'suspended') audioCtx.resume();
     }
-    function exitToMenu() {
-        if(timerInterval) clearInterval(timerInterval);
-        gameRunning = false;
-        document.getElementById('gameContainer').style.display = 'none';
-        document.getElementById('menuOverlay').style.display = 'flex';
-        document.getElementById('difficultyMenu').style.display = 'none';
-    }
     
-    // Партиклы
+    // === ПАРТИКЛЫ ===
     let particles = [];
     class Particle {
         constructor(x,y,color) {
-            this.x=x; this.y=y; this.vx=(Math.random()-0.5)*7; this.vy=(Math.random()-0.5)*7-3;
-            this.life=0.9; this.color=color; this.size=5+Math.random()*5;
+            this.x=x; this.y=y; this.vx=(Math.random()-0.5)*5; this.vy=(Math.random()-0.5)*5-2;
+            this.life=0.8; this.color=color; this.size=4+Math.random()*4;
         }
-        update() { this.x+=this.vx; this.y+=this.vy; this.vy+=0.25; this.life-=0.025; return this.life>0; }
+        update() { this.x+=this.vx; this.y+=this.vy; this.vy+=0.2; this.life-=0.02; return this.life>0; }
         draw(ctx) { ctx.globalAlpha=this.life; ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size/1.5,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
     }
-    function addParticles(x,y,color,count=10) { for(let i=0;i<count;i++) particles.push(new Particle(x,y,color)); }
+    function addParticles(x,y,color,count=8) { for(let i=0;i<count;i++) particles.push(new Particle(x,y,color)); }
     
-    // Игровое состояние
+    // === ОСНОВНЫЕ ПАРАМЕТРЫ (упрощённые) ===
     let gameRunning = true;
-    let gameMode = 'levels';
+    let gameMode = 'levels';        // 'levels' или 'endless'
     let currentLevel = 1;
-    let endlessDifficulty = 'normal';
-    let score = 0, combo = 0, scoreMultiplier = 1;
-    let timeLeft = 60, levelTimeLeft = 45;
-    let glitchMode = false, chaosMode = false, invertedMode = false;
+    let endlessDifficulty = 'easy'; // всегда лёгкий
+    let score = 0;
+    let bestScore = 0;
+    let combo = 0;
+    let scoreMultiplier = 1;
+    let timeLeft = 60;           // для бесконечного
+    let levelTimeLeft = 50;      // для уровней (старт 50 сек)
+    
+    let glitchMode = false;
+    let chaosMode = false;
+    let invertedMode = false;
+    
     const actions = ['МЯУ','ТИХО','БЕЙ','ПРЯТКИ'];
     const actionEmoji = ['😺','🤫','👊','📦'];
     let sectorAngles = [0,90,180,270];
@@ -322,42 +312,77 @@
     let timerInterval = null;
     let catRunTime = 0;
     
-    function updateCatRunning() {
-        catRunTime += 0.035;
-        let runRadius = 85 + Math.sin(catRunTime*1.5)*30;
-        let angle = catRunTime * 2.5;
-        catX = centerX + Math.cos(angle)*runRadius;
-        catY = centerY + Math.sin(angle*1.3)*runRadius - 5;
-        if(gameRunning && combo>=3 && Math.random()<0.12) addParticles(catX,catY,'#ffd700',2);
+    // === УПРОЩЁННЫЕ НАСТРОЙКИ ===
+    const COMMAND_TIME = 2200;        // больше времени на ответ (2.2 сек)
+    const BASE_DELAY = 1800;          // команды появляются реже
+    const LEVEL_TIME_INCREASE = 2;    // уровни проще, таймер уменьшается медленнее
+    
+    // Сохранение прогресса
+    function saveProgress() {
+        const save = {
+            score: score,
+            bestScore: bestScore,
+            gameMode: gameMode,
+            currentLevel: currentLevel,
+            endlessDifficulty: endlessDifficulty,
+            levelTimeLeft: levelTimeLeft,
+            timeLeft: timeLeft
+        };
+        localStorage.setItem('catGameSave', JSON.stringify(save));
     }
-    function updateMultiplier() {
-        if(combo===0) scoreMultiplier=1;
-        else if(combo===1) scoreMultiplier=1;
-        else if(combo===2) scoreMultiplier=2;
-        else if(combo===3) scoreMultiplier=3;
-        else if(combo===4) scoreMultiplier=4;
-        else scoreMultiplier=5;
+    
+    function loadProgress() {
+        const saved = localStorage.getItem('catGameSave');
+        if(saved) {
+            try {
+                const data = JSON.parse(saved);
+                score = data.score || 0;
+                bestScore = data.bestScore || 0;
+                gameMode = data.gameMode || 'levels';
+                currentLevel = data.currentLevel || 1;
+                endlessDifficulty = data.endlessDifficulty || 'easy';
+                levelTimeLeft = data.levelTimeLeft || 50;
+                timeLeft = data.timeLeft || 70;
+                updateUI();
+                return true;
+            } catch(e) {}
+        }
+        return false;
     }
+    
+    function updateBestScore() {
+        if(score > bestScore) {
+            bestScore = score;
+            const bestSpan = document.getElementById('bestValue');
+            if(bestSpan) bestSpan.innerText = bestScore;
+            saveProgress();
+        }
+    }
+    
     function updateUI() {
         const scoreEl = document.getElementById('scoreValue');
         const comboEl = document.getElementById('comboValue');
         const timeEl = document.getElementById('timeValue');
         const levelSpan = document.getElementById('levelInfo');
+        const bestSpan = document.getElementById('bestValue');
         if(scoreEl) scoreEl.innerText = score;
         if(comboEl) comboEl.innerText = combo;
         if(timeEl) timeEl.innerText = Math.ceil(gameMode === 'levels' ? levelTimeLeft : timeLeft);
+        if(bestSpan) bestSpan.innerText = bestScore;
         if(levelSpan) {
             if(gameMode === 'levels') levelSpan.innerText = `Уровень ${currentLevel}/30`;
-            else levelSpan.innerText = `Бесконечный [${endlessDifficulty === 'easy' ? 'Лёгкий' : endlessDifficulty === 'normal' ? 'Средний' : 'Сложный'}]`;
+            else levelSpan.innerText = `Бесконечный (лёгкий)`;
         }
     }
+    
     function showWarning(msg) {
         const div = document.createElement('div');
         div.className = 'warning';
         div.innerText = msg;
         document.body.appendChild(div);
-        setTimeout(()=>div.remove(),1100);
+        setTimeout(()=>div.remove(), 1000);
     }
+    
     function getSectorFromClick(mx,my) {
         const dx=mx-centerX, dy=my-centerY;
         if(Math.hypot(dx,dy)>radius+20) return -1;
@@ -371,6 +396,7 @@
         }
         return -1;
     }
+    
     function getActionForSector(idx) {
         let effective = chaosMode ? (idx+2)%4 : idx;
         let action = actions[effective];
@@ -378,102 +404,207 @@
             action = action==='МЯУ' ? 'ТИХО' : 'МЯУ';
         return action;
     }
+    
     function generateCommand() {
         if(!gameRunning) return;
-        const isFake = Math.random()<0.22;
+        const isFake = Math.random() < 0.2;  // реже фальшивые
         let cmdAction = actions[Math.floor(Math.random()*4)];
         if(isFake) currentCommand = { text:`НЕ ${cmdAction}`, action:cmdAction, isFake:true };
         else currentCommand = { text:cmdAction, action:cmdAction, isFake:false };
-        commandEndTime = Date.now()+1700;
-        let baseDelay = 1500;
-        if(gameMode==='levels') baseDelay = Math.max(800, 1600-currentLevel*22);
-        else {
-            if(endlessDifficulty==='easy') baseDelay=1450;
-            else if(endlessDifficulty==='normal') baseDelay=1150;
-            else baseDelay=850;
+        commandEndTime = Date.now() + COMMAND_TIME;
+        
+        let delay = BASE_DELAY;
+        if(gameMode === 'levels') {
+            delay = Math.max(1200, BASE_DELAY - currentLevel * 10);
         }
-        setTimeout(()=>{ if(gameRunning && !currentCommand) generateCommand(); }, baseDelay);
+        setTimeout(()=>{ if(gameRunning && !currentCommand) generateCommand(); }, delay);
     }
+    
     function handleAnswer(sectorIdx) {
         if(!gameRunning || !currentCommand) return;
-        if(Date.now()>commandEndTime) {
-            showWarning('⏰ Слишком поздно!'); combo=0; updateMultiplier();
-            generateCommand(); return;
+        if(Date.now() > commandEndTime) {
+            showWarning('⏰ Немного опоздали!');
+            combo = Math.max(0, combo-1);
+            updateMultiplier();
+            generateCommand();
+            return;
         }
         const selected = getActionForSector(sectorIdx);
         const correct = currentCommand.isFake ? selected !== currentCommand.action : selected === currentCommand.action;
+        
         if(correct) {
-            let earn = 10*scoreMultiplier;
-            score+=earn; combo++;
-            if(combo>5) combo=5;
+            let earn = 10 * scoreMultiplier;
+            score += earn;
+            combo++;
+            if(combo>8) combo=8;   // макс комбо выше, но проще
             updateMultiplier();
-            addParticles(catX,catY,'#ffd700',7);
+            addParticles(catX, catY, '#ffd700', 6);
             playCorrect();
-            flashAlpha=0.65; screenShake=3;
+            flashAlpha = 0.5;
+            screenShake = 2;
             showWarning(`✅ +${earn}! Комбо x${scoreMultiplier}`);
+            updateBestScore();
             generateCommand();
         } else {
-            combo=0; updateMultiplier();
-            score = Math.max(0, score-5);
+            combo = Math.max(0, combo-2);  // меньше штраф
+            if(combo === 0) scoreMultiplier = 1;
+            updateMultiplier();
+            score = Math.max(0, score - 3);  // штраф -3 вместо -5
             playWrong();
-            screenShake=7;
-            addParticles(catX,catY,'#ff4444',12);
-            showWarning(`❌ Ошибка! Нужно: ${currentCommand.isFake ? `НЕ ${currentCommand.action}` : currentCommand.action}`);
+            screenShake = 4;
+            addParticles(catX, catY, '#ff8888', 8);
+            showWarning(`❌ Ошибка... Нужно: ${currentCommand.isFake ? `НЕ ${currentCommand.action}` : currentCommand.action}`);
             generateCommand();
         }
         updateUI();
     }
-    function startGlitch() { if(gameRunning){ glitchMode=true; showWarning('🌀 ГЛЮК-РЕЖИМ: МЯУ ↔ ТИХО'); setTimeout(()=>glitchMode=false,5000); } }
-    function startChaos() { if(gameRunning){ chaosMode=true; showWarning('🌪️ ХАОС-РЕЖИМ: Сектора сдвинуты!'); setTimeout(()=>chaosMode=false,6000); } }
-    function startInverted() { if(gameRunning){ invertedMode=true; showWarning('🌈 ИНВЕРСИЯ: Цвета перевёрнуты'); setTimeout(()=>invertedMode=false,4000); } }
-    function randomEffect() { if(!gameRunning) return; const r=Math.random(); if(r<0.07) startGlitch(); else if(r<0.12) startChaos(); else if(r<0.16) startInverted(); }
+    
+    function updateMultiplier() {
+        if(combo === 0) scoreMultiplier = 1;
+        else if(combo < 3) scoreMultiplier = 1;
+        else if(combo < 5) scoreMultiplier = 2;
+        else if(combo < 7) scoreMultiplier = 3;
+        else scoreMultiplier = 4;
+    }
+    
+    // Эффекты (более редкие и короткие)
+    function startGlitch() { if(gameRunning){ glitchMode=true; showWarning('🌀 ГЛЮК: МЯУ↔ТИХО'); setTimeout(()=>glitchMode=false,4000); } }
+    function startChaos() { if(gameRunning){ chaosMode=true; showWarning('🌪️ ХАОС: сектора сдвинуты'); setTimeout(()=>chaosMode=false,5000); } }
+    function startInverted() { if(gameRunning){ invertedMode=true; showWarning('🌈 ИНВЕРСИЯ цветов'); setTimeout(()=>invertedMode=false,3500); } }
+    function randomEffect() { if(!gameRunning) return; const r=Math.random(); if(r<0.05) startGlitch(); else if(r<0.09) startChaos(); else if(r<0.13) startInverted(); }
+    
     function startTimers() {
         if(timerInterval) clearInterval(timerInterval);
         timerInterval = setInterval(()=>{
             if(!gameRunning) return;
-            if(gameMode==='levels') {
+            if(gameMode === 'levels') {
                 levelTimeLeft -= 0.1;
-                if(levelTimeLeft<=0) { levelTimeLeft=0; levelComplete(); }
+                if(levelTimeLeft <= 0) { levelTimeLeft=0; levelComplete(); }
             } else {
                 timeLeft -= 0.1;
-                if(timeLeft<=0) { timeLeft=0; gameOver(); }
+                if(timeLeft <= 0) { timeLeft=0; gameOver(); }
             }
             updateUI();
-        },100);
-        setInterval(()=>randomEffect(),13000);
+        }, 100);
+        setInterval(()=>randomEffect(), 15000);
     }
+    
     function levelComplete() {
         if(!gameRunning) return;
-        gameRunning=false; playLevelUp();
-        if(currentLevel<30) {
-            showLevelPopup(`🎉 УРОВЕНЬ ${currentLevel} ПРОЙДЕН! 🎉`, ()=>{ currentLevel++; resetLevel(); });
+        gameRunning = false;
+        playLevelUp();
+        if(currentLevel < 30) {
+            showLevelPopup(`🎉 Уровень ${currentLevel} пройден! 🎉`, ()=>{
+                currentLevel++;
+                resetLevel();
+            });
         } else {
-            showLevelPopup(`🏆 ПОБЕДА! ВСЕ 30 УРОВНЕЙ! Счёт: ${score} 🏆`, ()=>exitToMenu());
+            showLevelPopup(`🏆 ПОБЕДА! Все уровни пройдены! Счёт: ${score}`, ()=>exitToMenu());
         }
+        saveProgress();
     }
+    
     function gameOver() {
         if(!gameRunning) return;
-        gameRunning=false; playGameOver();
+        gameRunning = false;
+        playGameOver();
         showLevelPopup(`💀 ИГРА ОКОНЧЕНА! Счёт: ${score} 💀`, ()=>exitToMenu());
+        saveProgress();
     }
+    
     function showLevelPopup(msg, callback) {
         const popup = document.createElement('div');
         popup.className = 'level-complete';
-        popup.innerHTML = `<h2>${msg}</h2><button class="menu-btn primary" style="margin-top:16px; padding:10px 24px;">ПРОДОЛЖИТЬ</button>`;
+        popup.innerHTML = `<h2>${msg}</h2><button class="menu-btn primary" style="margin-top:16px;">ДАЛЕЕ</button>`;
         document.body.appendChild(popup);
         popup.querySelector('button').onclick = ()=>{ popup.remove(); callback(); };
     }
+    
     function resetLevel() {
-        score=0; combo=0; updateMultiplier();
-        levelTimeLeft = Math.max(28, 48-currentLevel);
-        gameRunning=true;
-        glitchMode=chaosMode=invertedMode=false;
+        score = 0;
+        combo = 0;
+        updateMultiplier();
+        levelTimeLeft = Math.max(35, 50 - Math.floor(currentLevel / 2));
+        gameRunning = true;
+        glitchMode = chaosMode = invertedMode = false;
         generateCommand();
         updateUI();
-        screenShake=0;
+        screenShake = 0;
+        saveProgress();
     }
     
-    // Отрисовка
+    function initGame(mode, isContinue = false) {
+        if(!isContinue) {
+            score = 0;
+            combo = 0;
+            updateMultiplier();
+            if(mode === 'levels') {
+                currentLevel = 1;
+                levelTimeLeft = 50;
+                gameMode = 'levels';
+            } else {
+                gameMode = 'endless';
+                timeLeft = 80;
+            }
+        }
+        gameRunning = true;
+        glitchMode = chaosMode = invertedMode = false;
+        generateCommand();
+        updateUI();
+        startTimers();
+        document.getElementById('gameContainer').style.display = 'block';
+        document.getElementById('menuOverlay').style.display = 'none';
+        saveProgress();
+        
+        canvas.onclick = (e)=>{
+            if(!gameRunning) return;
+            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
+            let x=(e.clientX-rect.left)*scale, y=(e.clientY-rect.top)*scale;
+            let sec=getSectorFromClick(x,y);
+            if(sec!==-1) handleAnswer(sec);
+        };
+        canvas.ontouchstart = (e)=>{
+            e.preventDefault();
+            let t=e.touches[0];
+            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
+            let x=(t.clientX-rect.left)*scale, y=(t.clientY-rect.top)*scale;
+            let sec=getSectorFromClick(x,y);
+            if(sec!==-1) handleAnswer(sec);
+        };
+    }
+    
+    function startNewGame() {
+        initGame('levels', false);
+    }
+    function continueGame() {
+        if(loadProgress()) {
+            // загруженный режим может быть 'levels' или 'endless'
+            initGame(gameMode, true);
+        } else {
+            alert('Нет сохранённой игры. Начинаем новую.');
+            startNewGame();
+        }
+    }
+    function exitToMenu() {
+        if(timerInterval) clearInterval(timerInterval);
+        gameRunning = false;
+        document.getElementById('gameContainer').style.display = 'none';
+        document.getElementById('menuOverlay').style.display = 'flex';
+        saveProgress();
+    }
+    
+    // === АНИМАЦИЯ КОШКИ ===
+    function updateCatRunning() {
+        if(!gameRunning) return;
+        catRunTime += 0.03;
+        let runRadius = 80 + Math.sin(catRunTime*1.2)*25;
+        let angle = catRunTime * 2.2;
+        catX = centerX + Math.cos(angle)*runRadius;
+        catY = centerY + Math.sin(angle*1.2)*runRadius - 5;
+        if(combo >= 2 && Math.random()<0.1) addParticles(catX, catY, '#aaa', 1);
+    }
+    
+    // === ОТРИСОВКА ===
     function draw() {
         if(!ctx) return;
         if(invertedMode) {
@@ -502,7 +633,7 @@
             ctx.arc(centerX,centerY,radius,startRad,endRad);
             ctx.closePath();
             let hue = sectorAngles[i];
-            ctx.fillStyle = invertedMode ? `hsl(${hue}, 80%, 60%)` : `hsl(${hue}, 80%, 45%)`;
+            ctx.fillStyle = invertedMode ? `hsl(${hue}, 75%, 60%)` : `hsl(${hue}, 75%, 45%)`;
             ctx.fill();
             ctx.strokeStyle = 'rgba(255,255,255,0.4)';
             ctx.lineWidth = 2.5;
@@ -515,13 +646,12 @@
             let action = getActionForSector(i);
             let idx = actions.indexOf(action);
             let emoji = actionEmoji[idx] || '🐱';
-            
             ctx.font = 'bold 34px "Segoe UI Emoji"';
-            ctx.fillStyle = invertedMode ? '#ffffff' : '#ffffff';
+            ctx.fillStyle = '#ffffff';
             ctx.shadowBlur = 4;
             ctx.fillText(emoji, textX-20, textY-12);
             ctx.font = 'bold 19px "Segoe UI"';
-            ctx.fillStyle = invertedMode ? '#ffffff' : '#f0f0f0';
+            ctx.fillStyle = '#f0f0f0';
             ctx.fillText(action, textX-22, textY+18);
             ctx.shadowBlur = 0;
         }
@@ -552,18 +682,18 @@
         ctx.restore();
         
         if(currentCommand && gameRunning){
-            let percent = Math.max(0, (commandEndTime-Date.now())/1700);
+            let percent = Math.max(0, (commandEndTime-Date.now())/COMMAND_TIME);
             ctx.beginPath();
             ctx.arc(centerX, centerY-75, 35, 0, Math.PI*2*percent);
-            ctx.strokeStyle = '#ff5555';
+            ctx.strokeStyle = '#ff6666';
             ctx.lineWidth = 5;
             ctx.stroke();
             ctx.font = 'bold 26px "Segoe UI"';
-            ctx.fillStyle = invertedMode ? '#ffffff' : '#ffffff';
+            ctx.fillStyle = '#ffffff';
             let displayText = currentCommand.text;
             if(currentCommand.isFake) ctx.fillStyle = '#ffaa77';
             ctx.fillText(displayText, centerX-70, centerY-90);
-            ctx.fillStyle = '#44ff66';
+            ctx.fillStyle = '#66ff66';
             ctx.fillRect(centerX-100, centerY-118, 200*percent, 6);
         }
         
@@ -571,12 +701,12 @@
         particles = particles.filter(p=>p.update());
         
         if(flashAlpha>0){
-            ctx.fillStyle = `rgba(255,255,200,${flashAlpha})`;
+            ctx.fillStyle = `rgba(255,255,180,${flashAlpha})`;
             ctx.fillRect(0,0,w,h);
-            flashAlpha *= 0.88;
+            flashAlpha *= 0.9;
         }
-        if(glitchMode && Math.random()<0.25){
-            ctx.fillStyle = `rgba(255,0,255,${Math.random()*0.25})`;
+        if(glitchMode && Math.random()<0.2){
+            ctx.fillStyle = `rgba(255,0,255,${Math.random()*0.2})`;
             ctx.fillRect(0,0,w,h);
         }
         if(screenShake>0) ctx.restore();
@@ -594,67 +724,10 @@
     function animate() { if(gameRunning) updateCatRunning(); draw(); requestAnimationFrame(animate); }
     animate();
     
-    function initGame(mode, diff=null) {
-        gameMode = mode;
-        endlessDifficulty = diff || 'normal';
-        currentLevel = 1;
-        score = 0; combo = 0; updateMultiplier();
-        catRunTime = 0;
-        if(gameMode==='levels') { levelTimeLeft = 46; timeLeft = 60; }
-        else { 
-            if(endlessDifficulty==='easy') timeLeft = 95;
-            else if(endlessDifficulty==='normal') timeLeft = 75;
-            else timeLeft = 55;
-        }
-        gameRunning = true;
-        glitchMode=chaosMode=invertedMode=false;
-        generateCommand();
-        updateUI();
-        startTimers();
-        document.getElementById('gameContainer').style.display = 'block';
-        document.getElementById('menuOverlay').style.display = 'none';
-        document.getElementById('difficultyMenu').style.display = 'none';
-        canvas.onclick = (e)=>{
-            if(!gameRunning) return;
-            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
-            let x=(e.clientX-rect.left)*scale, y=(e.clientY-rect.top)*scale;
-            let sec=getSectorFromClick(x,y);
-            if(sec!==-1) handleAnswer(sec);
-        };
-        canvas.ontouchstart = (e)=>{
-            e.preventDefault();
-            let t=e.touches[0];
-            let rect=canvas.getBoundingClientRect(), scale=canvas.width/rect.width;
-            let x=(t.clientX-rect.left)*scale, y=(t.clientY-rect.top)*scale;
-            let sec=getSectorFromClick(x,y);
-            if(sec!==-1) handleAnswer(sec);
-        };
-    }
-    function startLevelMode() { initGame('levels'); }
-    function startEndlessMode() { initGame('endless', endlessDifficulty); }
-    function showDifficultyMenu() {
-        document.getElementById('menuOverlay').style.display = 'none';
-        document.getElementById('difficultyMenu').style.display = 'flex';
-    }
-    function backToMain() {
-        if(timerInterval) clearInterval(timerInterval);
-        gameRunning = false;
-        document.getElementById('gameContainer').style.display = 'none';
-        document.getElementById('menuOverlay').style.display = 'flex';
-        document.getElementById('difficultyMenu').style.display = 'none';
-    }
-    function setDifficulty(d) {
-        endlessDifficulty = d;
-        document.querySelectorAll('.difficulty-btn').forEach(btn=>btn.classList.remove('active'));
-        document.querySelector(`.difficulty-btn[data-diff="${d}"]`).classList.add('active');
-    }
-    window.toggleSound=toggleSound;
-    window.startLevelMode=startLevelMode;
-    window.startEndlessMode=startEndlessMode;
-    window.showDifficultyMenu=showDifficultyMenu;
-    window.backToMain=backToMain;
-    window.setDifficulty=setDifficulty;
-    window.exitToMenu=exitToMenu;
+    window.toggleSound = toggleSound;
+    window.startNewGame = startNewGame;
+    window.continueGame = continueGame;
+    window.exitToMenu = exitToMenu;
 </script>
 </body>
 </html>
